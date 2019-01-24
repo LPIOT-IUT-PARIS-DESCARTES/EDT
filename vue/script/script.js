@@ -1,3 +1,4 @@
+//Récupérer le nom de domaine
 var baseurl = window.location.origin + window.location.pathname;
 if (baseurl.charAt(baseurl.length - 1) == "/") {
     baseurl = baseurl.slice(0, -1);
@@ -117,18 +118,18 @@ $(document).ready(function() {
             if (id_periode == 1) {
                 //Si la div est vide mais existe
                 if ($('#' + id_module + '-' + id_periode).is(':empty')) {
-                    $('#' + id_module + '-' + id_periode).html('<p id="matiere-'+item.id+'" class="para" style="color:'+item.couleur+';">' + item.label + '</p>');
+                    setHtmlById(id_module, id_matiere, item, null);
                     addTotal(id_periode, item.nbHeure);
                     addTotalM(id_module, item.nbHeure);
                 }
                 //La div existe mais n'est pas vide, on doit donc concaténer le texte
                 else if ($('#' + id_module + '-' + id_periode).length) {
-                    var old_text = $('#' + id_module + '-' + id_periode).html();
+                    var old_text = getHtmlById(id_module, id_periode);
                     if (old_text.includes(item.label)){
                         alert('Vous ne pouvez ajouter 2 fois la même matière pour une même période');
                         $("#reload_page").click();
                     } else {
-                        $('#' + id_module + '-' + id_periode).html(old_text + '<p class="para" id="matiere-'+item.id+'" style="color:'+item.couleur+';">' + item.label + '</p>');
+                        setHtmlById(id_module, id_matiere, item, old_text);
                         addTotal(id_periode, item.nbHeure);
                         addTotalM(id_module, item.nbHeure);
                     }
@@ -143,12 +144,12 @@ $(document).ready(function() {
                 for (var i = 1; i < id_periode; i++) {
                     //Si la div n'existe pas on la créer 
                     if ($('#' + id_module + '-' + i).length == 0) {
-                        $('#row' + id_module).append('<div class="cellules titre droppable silver" id=' + id_module + '-' + i + '></div>');
+                        createDiv(id_module,id_period);
                     }
                 }
                 //Si la div est vide mais existe
                 if ($('#' + id_module + '-' + i).is(':empty')) {
-                    $('#' + id_module + '-' + id_periode).html('<p class="para" id="matiere-'+item.id+'" style="color:'+item.couleur+';">'  + item.label + '</p>');
+                    setHtmlById(id_module, id_periode, item);
                     addTotal(id_periode, item.nbHeure);
                     addTotalM(id_module, item.nbHeure);
                 }
@@ -159,14 +160,15 @@ $(document).ready(function() {
                         alert('Vous ne pouvez ajouter 2 fois la même matière pour une même période');
                         $("#reload_page").click();
                     } else {
-                        $('#' + id_module + '-' + id_periode).html(old_text + '<p class="para" id="matiere-'+item.id+'" style="color:'+item.couleur+';">' + item.label + '</p>');
+                        setHtmlById(id_module, id_periode, item, old_text);
                         addTotal(id_periode, item.nbHeure);
                         addTotalM(id_module, item.nbHeure);
                     }
                 }
                 //La div n'existe pas on doit donc créer la div
                 else {
-                    $('#row' + id_module).append('<div class="cellules titre droppable silver" id=' + id_module + '-' + id_periode + '>' + '<p id="matiere-'+item.id+'" style="color:'+item.couleur+';">' + item.label + '</p>' + '</div>');
+                    createDiv(id_module, id_period);
+                    setHtmlById(id_module, id_period, item)
                     addTotal(id_periode, item.nbHeure);
                     addTotalM(id_module, item.nbHeure);
                 }
@@ -193,20 +195,52 @@ $(document).ready(function() {
         $('#select_module').removeAttr('disabled');
         $('#select_module option:contains("Module")').prop('selected', true);
     });
-
-    /*
-     * Fonction permettant de mettre à jour le contenu du total correspondant à la période sélectionné
+    /**
+     * Create Div
+     * @param {*} id_module 
+     * @param {*} id_period 
      */
-    function addTotal(id_periode, nbHeure) {
-        var old_total = $('#tot-' + id_periode).html();
+    function createDiv(id_module, id_period){
+        $('#row' + id_module).append('<div class="cellules titre droppable silver" id=' + id_module + '-' + id_period + '></div>');
+    }
+    /**
+     * Create a course in html
+     * @param {*} id_module 
+     * @param {*} id_period
+     * @param {*} item 
+     */
+    function setHtmlById(id_module, id_period, item, old_text){
+        if (old_text == null ){
+            $('#' + id_module + '-' + id_period).html('<p class="para" id="matiere-'+item.id+'" style="color:'+item.couleur+';">'  + item.label + '</p>'); 
+        } else {
+            $('#' + id_module + '-' + id_period).html(old_text + '<p class="para" id="matiere-'+item.id+'" style="color:'+item.couleur+';">' + item.label + '</p>');
+        }
+    }
+    /**
+     * Get a course from id
+     * @param {*} id_module 
+     * @param {*} id_period 
+     */
+    function getHtmlById(id_module, id_period) {
+        return document.getElementById(id_module+'-'+id_period).html();
+    }
+    /** Add Total Period
+     * 
+     * @param {*} id_period 
+     * @param {*} nbHeure 
+     */
+    function addTotal(id_period, nbHeure) {
+        var old_total = $('#tot-' + id_period).html();
         var old_total_int = parseInt(old_total);
         nbHeure = parseInt(nbHeure);
         var new_total = old_total_int + nbHeure;
-        $('#tot-' + id_periode).empty();
-        $('#tot-' + id_periode).html(new_total);
+        $('#tot-' + id_period).empty();
+        $('#tot-' + id_period).html(new_total);
     }
-    /*
-     * Fonction permettant de mettre à jour le contenu du total correspondant au module sélectionné
+    /**
+     * Add total module
+     * @param {*} id_module 
+     * @param {*} nbHeure 
      */
     function addTotalM(id_module, nbHeure) {
         var old_total = $('#totm-' + id_module).html();
@@ -216,14 +250,24 @@ $(document).ready(function() {
         $('#totm-' + id_module).empty();
         $('#totm-' + id_module).html(new_total);
     }
-    function minusTotal(id_periode, nbHeure){
-        var old_total = $('#tot-' + id_periode).html();
+    /**
+     * Minus total period
+     * @param {*} id_period 
+     * @param {*} nbHeure 
+     */
+    function minusTotal(id_period, nbHeure){
+        var old_total = $('#tot-' + id_period).html();
         var old_total_int = parseInt(old_total);
         nbHeure = parseInt(nbHeure);
         var new_total = old_total_int - nbHeure;
-        $('#tot-' + id_periode).empty();
-        $('#tot-' + id_periode).html(new_total);  
+        $('#tot-' + id_period).empty();
+        $('#tot-' + id_period).html(new_total);  
     }
+    /**
+     * Minus total modul
+     * @param {*} id_module 
+     * @param {*} nbHeure 
+     */
     function minusTotalM(id_module, nbHeure) {
         var old_total = $('#totm-' + id_module).html();
         var old_total_int = parseInt(old_total);
