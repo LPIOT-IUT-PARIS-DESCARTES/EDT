@@ -1,4 +1,5 @@
 ﻿<?php
+if (isset($_SESSION)){
 	if(isset($_GET['controle']) & isset($_GET['action']) & isset($_GET['id'])){
 		try {
 			$controle = $_GET['controle'];
@@ -33,12 +34,11 @@
 			require("vue/404.html");
 		}
 	} else {
-
-		if (isset($_SESSION)){
-            require("vue/layout/edt.html");
-		} else {
-            require("vue/layout/login.html");
-		}
-
+        require("vue/layout/edt.html");
 	}
+
+} else {
+    require("vue/layout/login.html");
+}
+
 ?>
