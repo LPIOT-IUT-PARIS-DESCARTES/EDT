@@ -33,6 +33,12 @@
 			require("vue/404.html");
 		}
 	} else {
-		require("vue/layout/edt.html");
+
+		if (isset($_SESSION)){
+            require("vue/layout/edt.html");
+		} else {
+            require("vue/layout/login.html");
+		}
+
 	}
 ?>

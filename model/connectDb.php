@@ -3,9 +3,9 @@ class connectDb{
     public static function dbConnect()
     {
         $hostname = "localhost";	//ou localhost
-        $base= "db_edt";
+        $base= "EDT";
         $loginBD= "root";	//ou "root"
-        $passBD="";
+        $passBD="haribo94";
 
         try
         {
