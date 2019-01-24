@@ -1,0 +1,21 @@
+Algo : Ajout de Module 
+
+Si (periode==1)
+	Si (div existe mais vide)
+		Écrire le nom du module 
+	Sinon Si (div existe mais n'est pas vide)
+		Concaténer le texte + "|" + nouveau texte
+	Sinon
+		Création de la div puis ajout du texte
+Sinon
+	Pour (i allant de 1 à i<periode)
+		Si (div existe pas)
+			Création de la div
+		FSi
+	FPour
+	Si (div existe mais vide)
+		Écrire le nom du module 
+	Sinon Si (div existe mais n'est pas vide)
+		Concaténer le texte + "|" + nouveau texte
+	Sinon
+		Création de la div puis ajout du texte
