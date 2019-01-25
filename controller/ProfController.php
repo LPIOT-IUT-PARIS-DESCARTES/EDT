@@ -29,32 +29,22 @@ class ProfController{
 
 //  Verifie (via @login) et charge les informations
   public function LoadProfil(){
+      session_start();
       $id = $_POST['id'];
       $password = $_POST['password'];
-      $array_json = array();
 
-      $islog = $this->login($id, $password);
+      $qProf = Prof::getProfLogin($id,$password);
+      $profinfo = $qProf->fetch();
+
+      if ($id == $profinfo['login_prof'] && $password == $profinfo['pass_prof']){
+
+          $_SESSION['id_prof'] = utf8_encode($profinfo['id_prof']);
+          $_SESSION['nom'] = utf8_encode($profinfo['nom']);
+
+      var_dump($_SESSION);
 
 
-      if ($islog == true){
-          $qProf = Prof::getProfById($islog['id']);
-          $prof = $qProf->fetch();
-
-          $obj_json = array('id' => utf8_encode($prof['id_prof']),
-              'nom' => utf8_encode($prof['nom']),
-              'prenom' => utf8_encode($prof['prenom']),
-              'email' => utf8_encode($prof['email']),
-              'label' => utf8_encode($prof['label']),
-              'login' => utf8_encode($prof['login_prof']),
-              'pass' => utf8_encode($prof['pass_prof']),
-              'date' => utf8_encode($prof['date_prof']),
-              'photo' => utf8_encode($prof['urlPhoto']),
-              'couleur' => utf8_encode($prof['couleur']),
-              'bConnect' => utf8_encode($prof['bConnect']),
-          );
-          array_push($array_json,$obj_json);
-          echo  json_encode($array_json);
-
+          require("vue/layout/edt.html");
 
 
       } else {
@@ -62,25 +52,5 @@ class ProfController{
       }
   }
 
-//  Verifie login & mot de passe
-    public function login($id, $password){
-
-        $prof = Prof::getProfLogin($id, $password);
-        $proflog = $prof->fetch();
-
-        if($proflog['cp'] == 1){
-            $profinfo = array(
-                'islog' => true,
-                'id' => $proflog['id_prof'],
-            );
-        } else{
-            $profinfo = array(
-                'islog' => false,
-                'id' => null,
-            );
-        };
-
-        return $profinfo;
-    }
 }
 ?>
