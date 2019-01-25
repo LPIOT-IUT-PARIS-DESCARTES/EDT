@@ -27,29 +27,24 @@ class ProfController{
   }
 
 
-//  Verifie (via @login) et charge les informations
-  public function LoadProfil(){
-      session_start();
+  /**
+   * Login du professeur
+   */
+  public function loginProf(){
+    if (isset($_POST['id']) && isset($_POST['password'])){
       $id = $_POST['id'];
       $password = $_POST['password'];
-
       $qProf = Prof::getProfLogin($id,$password);
       $profinfo = $qProf->fetch();
 
-      if ($id == $profinfo['login_prof'] && $password == $profinfo['pass_prof']){
-
-          $_SESSION['id_prof'] = utf8_encode($profinfo['id_prof']);
-          $_SESSION['nom'] = utf8_encode($profinfo['nom']);
-
-      var_dump($_SESSION);
-
-
-          require("vue/layout/edt.html");
-
-
-      } else {
-          echo "c'est la merde";
+      if ($id == $profinfo['login_prof'] && $password == $profinfo['pass_prof'] && $id != null && $password != null){
+        session_start();
+        $_SESSION['id_prof'] = utf8_encode($profinfo['id_prof']);
+        $_SESSION['nom'] = utf8_encode($profinfo['nom']);
       }
+    }
+    header("Location: index.php");
+    exit();
   }
 
 }
