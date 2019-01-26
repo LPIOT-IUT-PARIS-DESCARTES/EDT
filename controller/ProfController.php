@@ -41,8 +41,15 @@ class ProfController{
         session_start();
         $_SESSION['id_prof'] = utf8_encode($profinfo['id_prof']);
         $_SESSION['nom'] = utf8_encode($profinfo['nom']);
+        $_SESSION['prenom'] = utf8_encode($profinfo['prenom']);
       }
     }
+    header("Location: index.php");
+    exit();
+  }
+
+  public function disconnectProf(){
+    session_destroy();
     header("Location: index.php");
     exit();
   }

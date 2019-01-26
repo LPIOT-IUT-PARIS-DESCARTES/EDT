@@ -36,6 +36,7 @@
 			}
 		} else {
 			require("vue/layout/edt.html");
+			require("vue/layout/nav.html");
 		}
 	} else {
 		if (isset($_GET['controle'])){
