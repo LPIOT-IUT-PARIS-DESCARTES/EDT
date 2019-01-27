@@ -6,11 +6,12 @@
       <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
       <meta http-equiv="X-UA-Compatible" content="ie=edge">
       <title>Application - Emploi du temps</title>
-      <link rel="stylesheet" type="text/css" href="./vue/style/style.css" />
       <link rel="stylesheet" type="text/css" href="./vue/style/bootstrap.css" />
+      <link rel="stylesheet" type="text/css" href="./vue/style/style.css" />
       <link rel="stylesheet" type="text/css" href="./vue/style/normalize.css" />
       <script src="./vue/script/jquery-3.3.1.min.js"></script>
-      <script src="./vue/script/script.js"></script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      <script src="./vue/script/script2.js"></script>
    </head>
    <!-- BODY -->
    <body>
@@ -21,6 +22,7 @@
                <div class="row">
                   <div class="zone col-md-6" id="btns">
                      <button class="btn btn-info" id="start">Générer l'EDT</button>
+                     <button class="btn btn-danger" id="delete">Supprimer</button>
                   </div>
                   <div class="col-md-4">
                      <div class="form-group row">
@@ -47,13 +49,13 @@
                   <div class="row" id="H">
                      <div class="cellules titre silver" id="titre">
                         <p class="barre"></p>
-                        <p class="hautD">période</p>
-                        <p class="basG">modules</p>
+                        <p class="hautD">Périodes</p>
+                        <p class="basG">Modules</p>
                      </div>
                   </div>
                   <div class="row cptV" id="total_periode">
-                     <div class="cellules silver" id="titre_total_periode">
-                        <p><b>Total par Période</b></p>
+                     <div class="cellules silver" id="lineTot">
+                        <p><b>Total/Période</b></p>
                      </div>
                   </div>
                </div>

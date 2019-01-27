@@ -13,7 +13,7 @@ body 	{ padding-top:50px; margin-left:2em}
 	clear:left
 }
 
-.cellules {	border: 4px solid #888; 
+.cellules {	border: 1px solid #778ca3; 
 			width: 10em;
 			float:left; 
 			padding-top:1em}
@@ -52,17 +52,20 @@ p.barre {
 
 /*.container {min-with:300em}*/
 
-.blue {background: blue;}
-.red {background: red;}
-.yellow {background: yellow;}
+.blue {background: #45aaf2;}
+.red {background: #eb3b5a;}
+.yellow {background: #fed330;}
 .gray {background: gray;}
 .orange {background: orange;}
 .gray {background: gray;}
 .navy {background: navy;}
-.purple {background: purple;}
-.lime {background: lime;}
+.purple {background: #a55eea;}
+.lime {background: #eb3b5a;}
 .olive {background: olive;}
 .teal {background: teal;}
 .silver {background: silver;}
 .fuchsia {background: fuchsia;}
 .aqua {background: aqua;}
+.green { background-color: #26de81;}
+.white { background-color: #ffffff;}
+
