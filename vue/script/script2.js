@@ -9,14 +9,26 @@ const STATUS_FAILED_MESSAGE = "HTTP_REQUEST failed. Please contact Ayaz.";
 
 /**
  * --------------------------------------------------------------------------------------------------------------------------
- * ------------------------------------------------ BASIC FUNCTIONS ----------------------------------------------------------
+ * ------------------------------------------------ FUNCTIONS ---------------------------------------------------------
  * --------------------------------------------------------------------------------------------------------------------------
  */
 
 /**
  * Initialize the page
  */
-$(document).ready(function () { initialize(); });
+$(document).ready(function () {
+    initialize();
+    //Set the trash-icon as 
+    $('.fa-trash-alt').droppable({
+        drop: function(event, ui) {
+            ui.draggable.remove();
+        }/*,
+        over: function(event, ui){
+
+        }*/
+    });
+
+});
 
 /**
  * Add time for a course
@@ -25,12 +37,19 @@ $(document).on('click', '.white', function () {
     //TODO: Replace this by a custom dialog box w/ JQuery
     let hours = prompt("Saisissez le nombre d'heures que vous souhaitez");
     if (hours != null) {
-        if ($(this).html() != '') {
-            $(this).html('');
-            $(this).append(hours);
-        } else {
-            $(this).append(hours);
-        }
+        addHours($(this), hours);
+        $('.white').droppable({
+            drop: function (event, ui) {
+                swapHours($(this), ui.draggable, ui.draggable.parent());
+            }
+            /*,
+            over: function(event, ui) {
+                $(this).css('background', 'orange');
+            },
+            out: function(event, ui) {
+                $(this).css('background', 'cyan');
+            }*/
+        });
     }
 });
 
@@ -91,14 +110,53 @@ function initialize() {
 };
 
 
-
 /**
  * ---------------------------------------------------------------------------------------------------------------------
- * ------------------------------------------------ FUNCTIONS ----------------------------------------------------------
+ * ------------------------------------------------ BASIC FUNCTIONS ----------------------------------------------------------
  * ---------------------------------------------------------------------------------------------------------------------
  */
 
+/**
+ * Function that adds hours in a div
+ * @param {*} div 
+ * @param {*} hours 
+ */
+function addHours(div, hours) {
+    if (div.html() != '') {
+        div.html('');
+        div.append('<p class="draggable" >' + hours + '</p>');
+    } else {
+        div.append('<p class="draggable">' + hours + '</p>');
+    }
+    setDraggable();
+}
 
+/**
+ * Function that swaps hours in between course's div
+ * @param {*} div_drop 
+ * @param {*} div_drag 
+ * @param {*} div_drag_parent 
+ */
+function swapHours(div_drop, div_drag, div_drag_parent){
+    let drop_html = div_drop.text();
+    div_drop.html('');
+    div_drop.append('<p class="draggable" >' + div_drag.text() + '</p>');
+    //Here is the swap, only if the target div (where the div is dropped) is not empty
+    if (drop_html != null){
+        div_drag_parent.html('');
+        div_drag_parent.append('<p class="draggable" >' + drop_html + '</p>');
+    }
+    div_drag.remove();
+    setDraggable();
+}
+
+/**
+ * Function that sets the newly created div in the draggable mode
+ */
+function setDraggable(){
+    $('.draggable').draggable();
+    $('.draggable').css('background', 'blue');
+}
 /**
  * Function that return the div of a clickable element
  * @param {*} div 
@@ -178,7 +236,7 @@ function initializeCourseLine(course, module_id, nbColumn) {
         + course.nom + '</div>').insertAfter($('#' + MODULE_TITRE + '-' + module_id));
     //Add clickable div in the course line
     for (let i = 1; i < nbColumn; i++) {
-        $('#' + course.id).append('<div draggable="true" class="cellules titre droppable white ui-widget-content text-center ' + COLUMN_CLASS + '-' + i + '"></div>');
+        $('#' + course.id).append('<div class="cellules titre droppable white text-center ' + COLUMN_CLASS + '-' + i + '"></div>');
     }
 
 }
