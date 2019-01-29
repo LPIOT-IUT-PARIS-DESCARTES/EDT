@@ -25,7 +25,7 @@ $(document).ready(function () {
     $('.fa-trash-alt').droppable({
         drop: function (event, ui) {
             calculateCourseTotal(ui.draggable.parent().parent().attr('id'), ui.draggable.html());
-            console.log(ui.draggable.html());
+            calculatePeriodeTotal(ui.draggable.parent().attr('class'), ui.draggable.html());
             calculateModuleTotal(ui.draggable.parent().parent().children().last().attr('class'), true);
             ui.draggable.remove();
         }/*,
@@ -144,7 +144,7 @@ function addHours(div, hours) {
     }
     calculateCourseTotal(div.parent().attr('id'), null);
     calculateModuleTotal(div.parent().children().last(), null);
-    calculatePeriodeTotal(div);
+    calculatePeriodeTotal(div, null);
     setDraggable(div.children(), rgbToHex(rgb));
 }
 
@@ -186,8 +186,8 @@ function swapHours(div_drop, div_drag, div_drag_parent) {
     setDraggable(div_drag_parent.children(), rgbToHex(rgb));
     calculateCourseTotal(div_drop.parent().attr('id'), null);
     calculateCourseTotal(div_drag_parent.parent().attr('id'), null);
-    calculatePeriodeTotal(div_drag_to_send);
-    calculatePeriodeTotal(div_drop_to_send);
+    calculatePeriodeTotal(div_drag_to_send, null);
+    calculatePeriodeTotal(div_drop_to_send, null);
 }
 
 /**
@@ -253,9 +253,14 @@ function calculateModuleTotal(div, mode) {
     $('.' + TOTAL_CLASS + '-' + MODULE_CLASS_TITLE + '-' + id).html(total);
 }
 
-function calculatePeriodeTotal(div) {
+function calculatePeriodeTotal(div, mode) {
     let lastClass = "";
-    var classList = div.attr('class').split(/\s+/);
+    let classList = null;
+    if (mode == null) {
+        classList = div.attr('class').split(/\s+/);
+    } else {
+        classList = div.split(/\s+/);
+    }
     let pos = 0;
     if (classList.includes('ui-droppable')) {
         pos = classList.length - 2;
@@ -275,6 +280,10 @@ function calculatePeriodeTotal(div) {
         }
     });
     if (isNaN(total)) { total = 0; }
+    if (mode != null) {
+        if (total >= mode) { total = total - parseInt(mode) }
+    }
+    console.log(total);
     $('#' + PERIOD_TOTAL_ID + '-' + id).html(total);
 }
 /**
