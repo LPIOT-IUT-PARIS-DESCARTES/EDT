@@ -21,6 +21,7 @@ est en relation avec des responsables de matières.
 - HTML 5
 - JavaScript : ECMAScript 2018
 - Jquery v3.3.1
+- PHP v7.2
 - Bootstrap v4.2.1 (.js + .css)
 
 ### Installation 
