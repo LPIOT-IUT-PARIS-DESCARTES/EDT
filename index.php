@@ -35,8 +35,8 @@
 				require("vue/404.html");
 			}
 		} else {
-			require("vue/layout/edt.html");
 			require("vue/layout/nav.html");
+			require("vue/layout/edt.html");
 		}
 	} else {
 		if (isset($_GET['controle'])){
