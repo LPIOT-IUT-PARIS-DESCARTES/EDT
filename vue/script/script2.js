@@ -24,8 +24,9 @@ $(document).ready(function () {
     //Set the trash-icon as 
     $('.fa-trash-alt').droppable({
         drop: function (event, ui) {
-            alert(ui.draggable.parent().parent().children().last().attr('class'));
-            calculateModuleTotal(ui.draggable.parent().children().last());
+            calculateCourseTotal(ui.draggable.parent().parent().attr('id'), ui.draggable.html());
+            console.log(ui.draggable.html());
+            calculateModuleTotal(ui.draggable.parent().parent().children().last().attr('class'), true);
             ui.draggable.remove();
         }/*,
         over: function(event, ui){
@@ -141,8 +142,8 @@ function addHours(div, hours) {
     } else {
         div.append('<p class="draggable">' + hours + '</p>');
     }
-    calculateCourseTotal(div.parent().attr('id'));
-    calculateModuleTotal(div.parent().children().last());
+    calculateCourseTotal(div.parent().attr('id'), null);
+    calculateModuleTotal(div.parent().children().last(), null);
     calculatePeriodeTotal(div);
     setDraggable(div.children(), rgbToHex(rgb));
 }
@@ -183,8 +184,8 @@ function swapHours(div_drop, div_drag, div_drag_parent) {
     rgb = div_drag_parent.parent().children().css('background-color');
     div_drag.remove();
     setDraggable(div_drag_parent.children(), rgbToHex(rgb));
-    calculateCourseTotal(div_drop.parent().attr('id'));
-    calculateCourseTotal(div_drag_parent.parent().attr('id'));
+    calculateCourseTotal(div_drop.parent().attr('id'), null);
+    calculateCourseTotal(div_drag_parent.parent().attr('id'), null);
     calculatePeriodeTotal(div_drag_to_send);
     calculatePeriodeTotal(div_drop_to_send);
 }
@@ -223,7 +224,8 @@ function getColumn(div) {
  * Function that calculates the total for a course
  * @param {*} id 
  */
-function calculateCourseTotal(id) {
+function calculateCourseTotal(id, minus) {
+
     let total = 0;
 
     $('#' + id + " .white p").each(function () {
@@ -232,13 +234,19 @@ function calculateCourseTotal(id) {
         }
     });
     if (isNaN(total)) { total = 0 };
+    if (minus != null) {
+        if (total >= minus) { total = total - parseInt(minus) }
+    }
     $('.' + TOTAL_CLASS + '-' + COURSE_CLASS_TITLE + '-' + id).html(total);
 }
 
-function calculateModuleTotal(div) {
-    let lastClass = div.attr('class').split(' ').pop();
-    id = lastClass.split('-')[1];
+function calculateModuleTotal(div, mode) {
     let total = 0;
+    let lastClass = "";
+    if (mode != null) { lastClass = div.split(' ').pop(); }
+    else { lastClass = div.attr('class').split(' ').pop(); }
+
+    id = lastClass.split('-')[1];
     $('.' + TOTAL_MODULE_FOR_COURSE + '-' + id).each(function () {
         total = total + parseInt($(this).html());
     });
