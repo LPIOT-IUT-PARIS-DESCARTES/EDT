@@ -25,14 +25,14 @@ est en relation avec des responsables de matières.
 
 ### Installation 
 
-1) Télécharger le repo au format .zip
+1) Télécharger le repo au format .zip.
 
 2) Extraire le projet dans le dossier dans votre serveur local. 
 
 
 ###### Ou alors :
 
-1) Copier le lien git du projet (<URL>)
+1) Copier le lien git du projet ('URL').
 
 2) Placez vous dans le dossier "www" de votre serveur local.
 
@@ -40,15 +40,15 @@ est en relation avec des responsables de matières.
 ```
 git clone <URL>
 ```
-3) Lancer votre serveur web
+3) Lancer votre serveur web.
 
 4) Dans votre gestionnaire de base de données :
-- Créer une nouvelle base de données "proj"
-- Importer le fichier proj.sql dans cette table
+- Créer une nouvelle base de données "proj".
+- Importer le fichier proj.sql dans cette table.
 
-5) Modifier le fichier \EDT\service\connectDB avec le login&pwd de votre gestionnaire
+5) Modifier le fichier \EDT\service\connectDB avec le login&pwd de votre gestionnaire.
 
-6) C'est terminé ! Le projet EDT est disponible sur votre serveur local et est accessible par "/EDT"
+6) C'est terminé ! Le projet EDT est disponible sur votre serveur local et est accessible par "/EDT".
 
 
 ## Versioning
