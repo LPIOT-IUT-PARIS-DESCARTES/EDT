@@ -20,7 +20,7 @@ $(document).ready(function () {
     initialize();
     //Set the trash-icon as 
     $('.fa-trash-alt').droppable({
-        drop: function(event, ui) {
+        drop: function (event, ui) {
             ui.draggable.remove();
         }/*,
         over: function(event, ui){
@@ -35,7 +35,14 @@ $(document).ready(function () {
  */
 $(document).on('click', '.white', function () {
     //TODO: Replace this by a custom dialog box w/ JQuery
-    let hours = prompt("Saisissez le nombre d'heures que vous souhaitez");
+    let placeholder = "";
+    let hours = "";
+    if ($(this).html() != "") { placeholder = $(this).children().text(); }
+    if (placeholder != "") {
+        hours = prompt("Saisissez le nombre d'heures que vous souhaitez",placeholder);
+    } else {
+        hours = prompt("Saisissez le nombre d'heures que vous souhaitez");
+    }
     if (hours != null) {
         addHours($(this), hours);
         $('.white').droppable({
@@ -122,40 +129,58 @@ function initialize() {
  * @param {*} hours 
  */
 function addHours(div, hours) {
+    let rgb = div.parent().children().css('background-color');
     if (div.html() != '') {
         div.html('');
         div.append('<p class="draggable" >' + hours + '</p>');
     } else {
         div.append('<p class="draggable">' + hours + '</p>');
     }
-    setDraggable();
+    setDraggable(div.children(),rgbToHex(rgb));
 }
 
 /**
+ * Function that convert rgb to hex
+ * Source: https://stackoverflow.com/questions/1740700/how-to-get-hex-color-value-rather-than-rgb-value
+ * @param {*} rgb 
+ */
+function rgbToHex(rgb) {
+    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    function hex(x) {
+        return ("0" + parseInt(x).toString(16)).slice(-2);
+    }
+    return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+}
+/**
  * Function that swaps hours in between course's div
- * @param {*} div_drop 
- * @param {*} div_drag 
+ * @param {*} div_drop //Where to drop
+ * @param {*} div_drag //From where to p comes to
  * @param {*} div_drag_parent 
  */
-function swapHours(div_drop, div_drag, div_drag_parent){
+function swapHours(div_drop, div_drag, div_drag_parent) {
+    //BackUp of the place where we gonna drop
     let drop_html = div_drop.text();
+    let rgb = div_drop.parent().children().css('background-color');
     div_drop.html('');
     div_drop.append('<p class="draggable" >' + div_drag.text() + '</p>');
+    setDraggable(div_drop.children(),rgbToHex(rgb));
+
     //Here is the swap, only if the target div (where the div is dropped) is not empty
-    if (drop_html != null){
+    if (drop_html != null) {
         div_drag_parent.html('');
         div_drag_parent.append('<p class="draggable" >' + drop_html + '</p>');
     }
+    rgb = div_drag_parent.parent().children().css('background-color');
     div_drag.remove();
-    setDraggable();
+    setDraggable(div_drag_parent.children(),rgbToHex(rgb));
 }
 
 /**
  * Function that sets the newly created div in the draggable mode
  */
-function setDraggable(){
-    $('.draggable').draggable();
-    $('.draggable').css('background', 'blue');
+function setDraggable(p, color) {
+    p.draggable();
+    p.css('background', color);
 }
 /**
  * Function that return the div of a clickable element
@@ -232,7 +257,13 @@ function initializeModuleLine(module, nbColumn) {
 
 function initializeCourseLine(course, module_id, nbColumn) {
     //Add title of course on the line
-    $('<div class="row edt" id=' + course.id + '><div class="cellules titre droppable purple text-center">'
+    let color = ""
+    if (course.couleur != ""){
+        color = course.couleur;
+    } else {
+        color = "#a55eea";
+    }
+    $('<div class="row edt" id=' + course.id + '><div class="cellules titre droppable text-center" style="background:'+color+'">'
         + course.nom + '</div>').insertAfter($('#' + MODULE_TITRE + '-' + module_id));
     //Add clickable div in the course line
     for (let i = 1; i < nbColumn; i++) {
