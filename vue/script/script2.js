@@ -2,7 +2,10 @@ const BASE_URL = getBaseUrl();
 const COLUMN_CLASS = "column";
 const MODULE_TITRE = "module";
 const MODULE_TOTAL_TITRE = "Total";
-const MODULE_TOTAL_CLASS = "columnTot";
+const TOTAL_CLASS = "columnTot";
+const TOTAL_MODULE_FOR_COURSE = "mod";
+const MODULE_CLASS_TITLE = "module";
+const COURSE_CLASS_TITLE = "course";
 const PERIOD_TOTAL_ID = "lineTot";
 const STATUS_SUCCESS = "success";
 const STATUS_FAILED_MESSAGE = "HTTP_REQUEST failed. Please contact Ayaz.";
@@ -21,6 +24,8 @@ $(document).ready(function () {
     //Set the trash-icon as 
     $('.fa-trash-alt').droppable({
         drop: function (event, ui) {
+            alert(ui.draggable.parent().parent().children().last().attr('class'));
+            calculateModuleTotal(ui.draggable.parent().children().last());
             ui.draggable.remove();
         }/*,
         over: function(event, ui){
@@ -39,7 +44,7 @@ $(document).on('click', '.white', function () {
     let hours = "";
     if ($(this).html() != "") { placeholder = $(this).children().text(); }
     if (placeholder != "") {
-        hours = prompt("Saisissez le nombre d'heures que vous souhaitez",placeholder);
+        hours = prompt("Saisissez le nombre d'heures que vous souhaitez", placeholder);
     } else {
         hours = prompt("Saisissez le nombre d'heures que vous souhaitez");
     }
@@ -102,7 +107,7 @@ function initialize() {
                         for (let c in courses) {
                             let course = courses[c];
                             initializeCourseLine(course, module.id, nbColumn);
-                            initializeTotalModuleColumn(null, course.id);
+                            initializeTotalModuleColumn(module.id, course.id);
                         }
                     } else {
                         alert(STATUS_FAILED_MESSAGE);
@@ -136,7 +141,10 @@ function addHours(div, hours) {
     } else {
         div.append('<p class="draggable">' + hours + '</p>');
     }
-    setDraggable(div.children(),rgbToHex(rgb));
+    calculateCourseTotal(div.parent().attr('id'));
+    calculateModuleTotal(div.parent().children().last());
+    calculatePeriodeTotal(div);
+    setDraggable(div.children(), rgbToHex(rgb));
 }
 
 /**
@@ -160,19 +168,25 @@ function rgbToHex(rgb) {
 function swapHours(div_drop, div_drag, div_drag_parent) {
     //BackUp of the place where we gonna drop
     let drop_html = div_drop.text();
+    let div_drop_to_send = div_drop;
     let rgb = div_drop.parent().children().css('background-color');
     div_drop.html('');
     div_drop.append('<p class="draggable" >' + div_drag.text() + '</p>');
-    setDraggable(div_drop.children(),rgbToHex(rgb));
+    setDraggable(div_drop.children(), rgbToHex(rgb));
 
     //Here is the swap, only if the target div (where the div is dropped) is not empty
+    let div_drag_to_send = div_drag_parent;
     if (drop_html != null) {
         div_drag_parent.html('');
         div_drag_parent.append('<p class="draggable" >' + drop_html + '</p>');
     }
     rgb = div_drag_parent.parent().children().css('background-color');
     div_drag.remove();
-    setDraggable(div_drag_parent.children(),rgbToHex(rgb));
+    setDraggable(div_drag_parent.children(), rgbToHex(rgb));
+    calculateCourseTotal(div_drop.parent().attr('id'));
+    calculateCourseTotal(div_drag_parent.parent().attr('id'));
+    calculatePeriodeTotal(div_drag_to_send);
+    calculatePeriodeTotal(div_drop_to_send);
 }
 
 /**
@@ -190,6 +204,10 @@ function getLine(div) {
     return div.parent().attr('id');
 }
 
+/**
+ * Function that returns the column
+ * @param {*} div 
+ */
 function getColumn(div) {
     let classes = div.attr('class').split(/\s+/);
     let res = null;
@@ -201,6 +219,56 @@ function getColumn(div) {
     return res;
 }
 
+/**
+ * Function that calculates the total for a course
+ * @param {*} id 
+ */
+function calculateCourseTotal(id) {
+    let total = 0;
+
+    $('#' + id + " .white p").each(function () {
+        if ($(this).html() != "") {
+            total = total + parseInt($(this).html());
+        }
+    });
+    if (isNaN(total)) { total = 0 };
+    $('.' + TOTAL_CLASS + '-' + COURSE_CLASS_TITLE + '-' + id).html(total);
+}
+
+function calculateModuleTotal(div) {
+    let lastClass = div.attr('class').split(' ').pop();
+    id = lastClass.split('-')[1];
+    let total = 0;
+    $('.' + TOTAL_MODULE_FOR_COURSE + '-' + id).each(function () {
+        total = total + parseInt($(this).html());
+    });
+    $('.' + TOTAL_CLASS + '-' + MODULE_CLASS_TITLE + '-' + id).html(total);
+}
+
+function calculatePeriodeTotal(div) {
+    let lastClass = "";
+    var classList = div.attr('class').split(/\s+/);
+    let pos = 0;
+    if (classList.includes('ui-droppable')) {
+        pos = classList.length - 2;
+    }
+    if (pos != 0) {
+        lastClass = classList[pos];
+    } else {
+        lastClass = div.attr('class').split(' ').pop();
+    }
+    id = lastClass.split('-')[1];
+    var total = 0;
+    $('.' + COLUMN_CLASS + '-' + id).each(function () {
+        if (typeof $(this).children().first().html() !== 'undefined') {
+            if ($(this).children().first().html() != "") {
+                total = total + parseInt($(this).children().first().html());
+            }
+        }
+    });
+    if (isNaN(total)) { total = 0; }
+    $('#' + PERIOD_TOTAL_ID + '-' + id).html(total);
+}
 /**
  * Function that initializes the period columns AND the total module column (only the title)
  * @param {*} id 
@@ -224,7 +292,7 @@ function initializeTotalPeriodLine(id) {
  * Function that initializes the total module column title
  */
 function initializeTitleTotalModuleColumn() {
-    $('<div class="cellules total silver text-center ' + MODULE_TOTAL_CLASS + '"><p><b>'
+    $('<div class="cellules total silver text-center ' + TOTAL_CLASS + '"><p><b>'
         + MODULE_TOTAL_TITRE + '</b></p></div>').insertAfter($('#titre'));
 }
 
@@ -235,9 +303,10 @@ function initializeTitleTotalModuleColumn() {
 function initializeTotalModuleColumn(id, course_id) {
     if (course_id == null) {
         $('#' + MODULE_TITRE + '-' + id).append('<div class="cellules total green text-center '
-            + MODULE_TOTAL_CLASS + '-' + id + '">0</div>');
+            + TOTAL_CLASS + '-' + MODULE_CLASS_TITLE + '-' + id + '">0</div>');
     } else {
-        $('#' + course_id).append('<div class="cellules titre droppable silver text-center"></div>');
+        $('#' + course_id).append('<div class="cellules titre droppable olive text-center '
+            + TOTAL_CLASS + '-' + COURSE_CLASS_TITLE + '-' + course_id + ' ' + TOTAL_MODULE_FOR_COURSE + '-' + id + '">0</div>');
     }
 }
 
@@ -258,12 +327,12 @@ function initializeModuleLine(module, nbColumn) {
 function initializeCourseLine(course, module_id, nbColumn) {
     //Add title of course on the line
     let color = ""
-    if (course.couleur != ""){
+    if (course.couleur != "") {
         color = course.couleur;
     } else {
         color = "#a55eea";
     }
-    $('<div class="row edt" id=' + course.id + '><div class="cellules titre droppable text-center" style="background:'+color+'">'
+    $('<div class="row edt" id=' + course.id + '><div class="cellules titre droppable text-center" style="background:' + color + '">'
         + course.nom + '</div>').insertAfter($('#' + MODULE_TITRE + '-' + module_id));
     //Add clickable div in the course line
     for (let i = 1; i < nbColumn; i++) {
