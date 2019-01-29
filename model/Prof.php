@@ -23,4 +23,12 @@ class Prof extends connectDb {
 
         return $profs;
     }
+
+    public static function getProfLogin($login,$password)    {
+        $db = connectDb::dbConnect();
+        $prof = $db->prepare("SELECT * FROM `prof` WHERE login_prof = '$login' AND pass_prof = '$password'");
+        $prof->execute();
+
+        return $prof;
+    }
 }

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./vue/style/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="./vue/style/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="./vue/style/style-nav.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">    <script src="./vue/script/jquery-3.3.1.min.js"></script>
+    <script src="./vue/script/modernizr.min.js"></script>
+</head>
+<body class="fixed-left">
+
+<!-- Begin page -->
+<div id="wrapper">
+    <!-- Top Bar Start -->
+    <div class="topbar">
+        <!-- LOGO -->
+        <div class="topbar-left">
+            <a href="index.html" class="logo"><span>ED<span>T</span></span><i class="mdi mdi-layers"></i></a>
+        </div>
+    </div>
+    <!-- Top Bar End -->
+    <!-- ========== Left Sidebar Start ========== -->
+    <div class="left side-menu">
+        <div class="sidebar-inner slimscrollleft">
+            <!-- User -->
+            <div class="user-box">
+                <div class="user-img">
+                    <img src="./vue/image/prof.png" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
+                    <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
+                </div>
+                <!-- <h5><a href="#">Mat Helme</a> </h5> -->
+                <ul class="list-inline" id="B">
+                    <li class="list-inline-item">
+                        <a href="#" >
+                            <i class="mdi mdi-settings"></i>
+                        </a>
+                    </li>
+
+                    <li class="list-inline-item">
+                        <a href="#" class="text-custom">
+                            <i class="mdi mdi-power"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- End User -->
+
+            <!--- Sidemenu -->
+            <div id="sidebar-menu">
+                <ul>
+                    <li class="text-muted menu-title">Navigation</li>
+                    <li>
+                        <a href="?controle=ProfController&action=disconnectProf" class="waves-effect"><i class="fas fa-power-off"></i> <span> Déconnection </span> </a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <!-- Sidebar -->
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- Left Sidebar End -->
+</div>
+<!-- END wrapper -->
+</body>
+
+<script>
+    var nom = '<?php echo $_SESSION['nom']; ?>';
+    var prenom = '<?php echo $_SESSION['prenom']; ?>';
+    $('<h5><a href="#">' + prenom + ' ' + nom + '</a> </h5>').insertBefore($('#B'));
+
+</script>
+
+</html>

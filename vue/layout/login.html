@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion - Emploi du temps</title>
+    <link rel="stylesheet" type="text/css" href="./vue/style/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="./vue/style/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="./vue/style/signin.css" />
+    <script src="./vue/script/jquery-3.3.1.min.js"></script>
+</head>
+<body class="text-center">
+<form class="form-signin" method="post" action="?controle=ProfController&action=loginProf">
+    <img class="mb-4" src="./vue/image/logo.png" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+    <label for="inputIdentifiant" class="sr-only">Identifiant</label>
+    <input type="text" id="inputIdentifiant" class="form-control" placeholder="Identifiant" name="id" required="" autofocus="">
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required="">
+    <button class="btn btn-lg btn-primary btn-block" type="submit" id="submit">Sign in</button>
+</form>
+
+</body>
+</html>

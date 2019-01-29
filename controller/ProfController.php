@@ -25,5 +25,32 @@ class ProfController{
     }
     echo  json_encode($array_json);
   }
+
+    /**
+     * Login du professeur
+     */
+    public function loginProf(){
+        if (isset($_POST['id']) && isset($_POST['password'])){
+            $id = $_POST['id'];
+            $password = $_POST['password'];
+            $password = md5($password);
+            $qProf = Prof::getProfLogin($id,$password);
+            $profinfo = $qProf->fetch();
+            if ($id == $profinfo['login_prof'] && $password == $profinfo['pass_prof'] && $id != null && $password != null){
+                session_start();
+                $_SESSION['id_prof'] = utf8_encode($profinfo['id_prof']);
+                $_SESSION['nom'] = utf8_encode($profinfo['nom']);
+                $_SESSION['prenom'] = utf8_encode($profinfo['prenom']);
+            }
+        }
+        header("Location: index.php");
+        exit();
+    }
+
+    public function disconnectProf(){
+        session_destroy();
+        header("Location: index.php");
+        exit();
+    }
 }
 ?>
