@@ -34,9 +34,9 @@ class ProfController{
     if (isset($_POST['id']) && isset($_POST['password'])){
       $id = $_POST['id'];
       $password = $_POST['password'];
+      $password = md5($password);
       $qProf = Prof::getProfLogin($id,$password);
       $profinfo = $qProf->fetch();
-
       if ($id == $profinfo['login_prof'] && $password == $profinfo['pass_prof'] && $id != null && $password != null){
         session_start();
         $_SESSION['id_prof'] = utf8_encode($profinfo['id_prof']);
