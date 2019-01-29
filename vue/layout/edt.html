@@ -1,65 +1,78 @@
 <!doctype html>
 <html lang="fr">
-   <!-- HEADER -->
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-      <meta http-equiv="X-UA-Compatible" content="ie=edge">
-      <title>Application - Emploi du temps</title>
-      <link rel="stylesheet" type="text/css" href="./vue/style/style.css" />
-      <link rel="stylesheet" type="text/css" href="./vue/style/bootstrap.css" />
-      <link rel="stylesheet" type="text/css" href="./vue/style/normalize.css" />
-      <script src="./vue/script/jquery-3.3.1.min.js"></script>
-      <script src="./vue/script/script.js"></script>
-   </head>
-   <!-- BODY -->
-   <body>
-      <div class="container">
-         <div class="row">
-            <div class="col-md-6">
-               <h1 class="text-center">Grille d'EDT modules/périodes</h1>
-               <div class="row">
-                  <div class="zone col-md-6" id="btns">
-                     <button class="btn btn-info" id="start">Générer l'EDT</button>
-                  </div>
-                  <div class="col-md-4">
-                     <div class="form-group row">
-                        <div class="col-md-12" id="select_form">
-                           <label for="sel1">Select Module:</label>
-                           <select class="form-control" id="select_module">
-                              <option>Module</option>
-                           </select>
-                           <label for="sel1" style="display:none;" id="label_matiere">Select Matiere:</label>
-                           <select class="form-control" id="select_matiere" style="display:none;">
-                              <option>Matiere</option>
-                           </select>
-                           <label for="sel1" style="display:none;" id="label_periode">Select Période:</label>
-                           <select class="form-control" id="select_periode" style="display:none;">
-                              <option>Période</option>
-                           </select>
-                           <button class="btn btn-success" id="validate" style="display:none;">Valider</button>
-                           <button class="btn btn-info" id="reload_page" style="display:none;">Ajouter une nouvelle matière</button>
-                        </div>
-                     </div>
+<!-- HEADER -->
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>Application - Emploi du temps</title>
+   <link rel="stylesheet" type="text/css" href="./vue/style/bootstrap.css" />
+   <link rel="stylesheet" type="text/css" href="./vue/style/style.css" />
+   <link rel="stylesheet" type="text/css" href="./vue/style/normalize.css" />
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+      crossorigin="anonymous">
+   <script src="./vue/script/jquery-3.3.1.min.js"></script>
+   <script src="./vue/script/bootstrap.js"></script>
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+   <script src="./vue/script/script2.js"></script>
+
+</head>
+<!-- BODY -->
+
+<body>
+   <div class="container">
+      <div class="row">
+         <div class="col-md-6">
+            <h1 class="text-center">Grille d'EDT modules/périodes</h1>
+            <div class="row">
+               <div class="zone col-md-6" id="btns">
+                  <i class="fas fa-trash-alt" style="font-size:48px;color:red"></i>
+               </div>
+            </div>
+            <div class="zone" id="edt">
+               <div class="row" id="H">
+                  <div class="cellules titre silver" id="titre">
+                     <p class="barre"></p>
+                     <p class="hautD">Périodes</p>
+                     <p class="basG">Modules</p>
                   </div>
                </div>
-               <div class="zone" id="edt">
-                  <div class="row" id="H">
-                     <div class="cellules titre silver" id="titre">
-                        <p class="barre"></p>
-                        <p class="hautD">période</p>
-                        <p class="basG">modules</p>
-                     </div>
-                  </div>
-                  <div class="row cptV" id="total_periode">
-                     <div class="cellules silver" id="titre_total_periode">
-                        <p><b>Total par Période</b></p>
-                     </div>
+               <div class="row cptV" id="total_periode">
+                  <div class="cellules silver" id="lineTot">
+                     <p><b>Total/Période</b></p>
                   </div>
                </div>
             </div>
          </div>
       </div>
-   </body>
-</html>
+   </div>
 
+   <!-- MODAL -->
+   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Saisie heure</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label class="col-form-label">Saisissez le nombre d'heures souhaitées:</label>
+                <input type="number" class="form-control" id="hour">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+            <button type="button" class="btn btn-success">Valider</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+
+</html>
