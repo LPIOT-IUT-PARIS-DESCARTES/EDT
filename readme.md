@@ -51,15 +51,6 @@ git clone <URL>
 6) C'est terminé ! Le projet EDT est disponible sur votre serveur local et est accessible par "/EDT"
 
 
-### xxxxxxxxxxx
-
-xxxxxxxxxx
-
-```
-xxxxxxxx
-```
-
-
 ## Versioning
 
 Nous avons utilisés Git pour le versionning du projet.
