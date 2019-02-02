@@ -55,7 +55,6 @@
         <li class="main active"><a href="#edt">EDT</a></li>
             <li><a href="#iut-paris-descartes">IUT Paris Descartes</a></li>
             <li><a href="#presentation">Présentation</a></li>
-            <li><a href="#technologies-utilisees">Technologies utilisées :</a></li>
             <li><a href="#versioning">Versioning</a></li>
             <li><a href="#authors">Authors</a></li>
     </ul>
@@ -67,12 +66,12 @@
 <h2 id="presentation">Présentation</h2>
 <p>Dans le cadre du module M5 nous avons dû concevoir le bureau virtuel d'un responsable d’Emploi Du Temps (EDT).
 Pour réaliser ses emplois du temps, un responsable d'EDT obtient des informations de l'établissement sous forme de listes et
-est en relation avec des responsables de matières.</p>
+est en relation avec des responsables des matières.</p>
 <h3 id="ce-qui-est-fourni">Ce qui est fourni :</h3>
 <ul>
 <li>Une base de données de l’application, avec de premières données enregistrées dans les tables.</li>
 </ul>
-<h2 id="technologies-utilisees">Technologies utilisées :</h2>
+<h3 id="technologies-utilisees">Technologies utilisées :</h3>
 <ul>
 <li>HTML 5</li>
 <li>JavaScript : ECMAScript 2018</li>
@@ -80,20 +79,37 @@ est en relation avec des responsables de matières.</p>
 <li>PHP v7.2</li>
 <li>Bootstrap v4.2.1 (.js + .css)</li>
 </ul>
+<h3 id="features">Features:</h3>
+<ul>
+<li>Affichage dynamique des modules, matières et périodes</li>
+<li>Interface utilisateur colorée permettant de différencier facilement les éléments du tableau</li>
+<li>Uniquement des appels AJAX</li>
+<li>Saisie des heures sur les matières</li>
+<li>Calcul des totaux à chaque changement d'heures sur l'emploi du temps</li>
+<li>Fonctionnalité "Glisser-Déposer" sur les heures</li>
+<li>Suppression des heures saisies</li>
+<li>Accès à l'application par le biai d'une connexion avec identifiant et mot de passe</li>
+<li>Déconnexion de l'utilisateur</li>
+</ul>
 <h3 id="installation">Installation</h3>
 <p>1) Télécharger le repo au format .zip.</p>
-<p>2) Extraire le projet dans le dossier dans votre serveur local. </p>
-<h6 id="ou-alors">Ou alors :</h6>
-<p>1) Lancer une invit de commande et executer la commande suivante :</p>
-<pre><code>git clone git@github.com:LPIOT-IUT-PARIS-DESCARTES/EDT.git
+<p>2) Extraire le projet dans le dossier dans votre serveur web. </p>
+<h5 id="ou-alors">Ou alors :</h5>
+<ul>
+<li>Pour cette étape veuillez vérifier si vous possédez <a href="https://git-scm.com/">Git</a></li>
+</ul>
+<p>1) Copier le <a href="https://github.com/LPIOT-IUT-PARIS-DESCARTES/EDT">lien</a> git du projet.</p>
+<p>2) Placez vous dans le dossier de votre serveur web.</p>
+<p>2 bis) Lancer une invite de commandes et exécuter la commande suivante :</p>
+<pre><code>git clone https://github.com/LPIOT-IUT-PARIS-DESCARTES/EDT.git
 </code></pre>
 
 <p>3) Lancer votre serveur web.</p>
 <p>4) Dans votre gestionnaire de base de données :
 - Créer une nouvelle base de données "proj".
-- Importer le fichier proj.sql dans cette table.</p>
-<p>5) Modifier le fichier \EDT\service\connectDB avec le login&amp;pwd de votre gestionnaire.</p>
-<p>6) C'est terminé ! Le projet EDT est disponible sur votre serveur local et est accessible par "/EDT".</p>
+- Importer le fichier proj.sql qui se trouve dans le dossier "resources", dans cette table.</p>
+<p>5) Modifier le fichier \EDT\service\connectDB avec le login et le mot de passe de votre SGBD.</p>
+<p>6) C'est terminé ! Le projet EDT est disponible sur votre serveur local et, est accessible par "/EDT".</p>
 <h2 id="versioning">Versioning</h2>
 <p>Nous avons utilisés Git pour le versionning du projet.</p>
 <h2 id="authors">Authors</h2>
@@ -184,5 +200,5 @@ est en relation avec des responsables de matières.</p>
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-01-29 13:59:35
+Build Date UTC : 2019-02-02 18:21:58
 -->
